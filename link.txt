@@ -1,0 +1,2 @@
+https://thewebdevcoach.com/Stand-Up-a-Node.js-Server-with-NestJS-including-TypeScript-and-GraphQL
+https://thewebdevcoach.com/Use-Prisma-with-a-NestJS-GraphQL-Server

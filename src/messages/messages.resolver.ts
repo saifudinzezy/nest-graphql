@@ -1,30 +1,33 @@
-import { Mutation, Args, Resolver, Query } from '@nestjs/graphql';
+import { Mutation, Args, Resolver, Query, Subscription } from '@nestjs/graphql';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Resolver()
 export class MessagesResolver {
-  messagesThatReallyShouldBeInADb = [
-    {
-      id: 0,
-      description: 'The seed message',
-    },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
   @Query()
-  messages() {
-    return this.messagesThatReallyShouldBeInADb;
+  messages(@Args() args) {
+    return this.prisma.query.messages(args);
+  }
+
+  @Query()
+  message(@Args() args) {
+    return this.prisma.query.message(args);
+  }
+
+  // mutation
+  @Mutation()
+  createMessage(@Args() args) {
+    return this.prisma.mutation.createMessage(args);
   }
 
   @Mutation()
-  createMessage(
-    @Args('description')
-    description: string,
-  ) {
-    const id = this.messagesThatReallyShouldBeInADb.length;
-    const newMessage = {
-      id,
-      description,
-    };
-    this.messagesThatReallyShouldBeInADb.push(newMessage);
-    return newMessage;
+  updateMessage(@Args() args) {
+    return this.prisma.mutation.updateMessage(args);
+  }
+
+  @Mutation()
+  deleteMessage(@Args() args) {
+    return this.prisma.mutation.deleteMessage(args);
   }
 }
