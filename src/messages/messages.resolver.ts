@@ -1,8 +1,9 @@
 import { Mutation, Args, Resolver, Query } from '@nestjs/graphql';
+import { ParseIntPipe } from '@nestjs/common';
 
-@Resolver()
+@Resolver('Message')
 export class MessagesResolver {
-  messagesThatReallyShouldBeInADb = [
+  dataMessage = [
     {
       id: 0,
       description: 'The seed message',
@@ -11,7 +12,15 @@ export class MessagesResolver {
 
   @Query()
   messages() {
-    return this.messagesThatReallyShouldBeInADb;
+    return this.dataMessage;
+  }
+
+  @Query('message')
+  async findOneById(
+    @Args('id', ParseIntPipe)
+    id: number,
+  ) {
+    return this.dataMessage.find(c => c.id === id);
   }
 
   @Mutation()
@@ -19,12 +28,36 @@ export class MessagesResolver {
     @Args('description')
     description: string,
   ) {
-    const id = this.messagesThatReallyShouldBeInADb.length;
+    const id = this.dataMessage.length;
     const newMessage = {
       id,
       description,
     };
-    this.messagesThatReallyShouldBeInADb.push(newMessage);
+    this.dataMessage.push(newMessage);
     return newMessage;
+  }
+
+  @Mutation()
+  updateMessage(
+    @Args('message')
+    message: any,
+  ) {
+    this.dataMessage = this.dataMessage.map(c => {
+      if (c.id === message.id) {
+        return { ...message };
+      }
+      return c;
+    });
+    return message;
+  }
+
+  @Mutation()
+  deleteMessage(
+    @Args('id', ParseIntPipe)
+    id: number,
+  ) {
+    const message = this.dataMessage.find(c => c.id === id);
+    this.dataMessage = this.dataMessage.filter(c => c.id !== id);
+    return message;
   }
 }

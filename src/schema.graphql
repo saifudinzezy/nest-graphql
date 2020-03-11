@@ -3,10 +3,18 @@ type Message {
   description: String!
 }
 
+input MessageInput {
+  id: Int
+  description: String
+}
+
 type Query {
   messages: [Message]!
+  message(id: Int!): Message
 }
 
 type Mutation {
-  createMessage(description: String!): Message!
+  createMessage(description: String!): Message
+  updateMessage(message: MessageInput): Message
+  deleteMessage(id: Int!): Message
 }
