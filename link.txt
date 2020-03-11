@@ -1,2 +1,3 @@
 https://thewebdevcoach.com/Stand-Up-a-Node.js-Server-with-NestJS-including-TypeScript-and-GraphQL
 https://thewebdevcoach.com/Use-Prisma-with-a-NestJS-GraphQL-Server
+https://thewebdevcoach.com/User-Registration-with-a-NestJS-GraphQL-Server-and-Prisma
